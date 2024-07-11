@@ -1,0 +1,39 @@
+{
+  "canisters": {
+    "event_management_system_backend": {
+      "build": "npx azle event_management_system_backend",
+      "candid": "src/event_management_system_backend/event_management_system_backend.did",
+      "gzip": true,
+      "main": "src/event_management_system_backend/src/index.ts",
+      "tech_stack": {
+        "cdk": {
+          "azle": {}
+        },
+        "language": {
+          "javascript": {},
+          "typescript": {}
+        }
+      },
+      "type": "custom",
+      "wasm": ".azle/event_management_system_backend/event_management_system_backend.wasm"
+    },
+    "event_management_system_frontend": {
+      "dependencies": [
+        "event_management_system_backend"
+      ],
+      "source": [
+        "src/event_management_system_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "event_management_system_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
