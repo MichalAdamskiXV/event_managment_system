@@ -3,7 +3,7 @@ import { FaHome } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { FaHotjar } from "react-icons/fa";
 
-const LeftSidebar = () => {
+const NavBar = () => {
 
     const sidebarLinks = [
         { id: 1, title: 'Home', path: '/', icon: <FaHome /> },
@@ -12,24 +12,24 @@ const LeftSidebar = () => {
     ];
 
     return (
-        <div className="flex">
-            <div className="w-auto h-[100vh] p-3 bg-dark">
-                <ul>
+        <div>
+            <nav className="w-[100vw] p-3 bg-dark">
+                <ul className="flex gap-6">
                     {
                         sidebarLinks.map(({ icon, id, path, title }) => (
                             <Link key={id} to={path}>
-                                <li className="hover:bg-body rounded-[8px] flex items-center text-light font-extrabold text-3xl p-3">
+                                <li className="hover:bg-body rounded-[8px] flex items-center text-light font-extrabold text-2xl p-3">
                                     {icon}
-                                    <span className="text-lg pl-3">{title}</span>
+                                    <span className="text-base pl-3">{title}</span>
                                 </li>
                             </Link>
                         ))
                     }
                 </ul>
-            </div>
+            </nav>
             <Outlet />
         </div>
     )
 }
 
-export default LeftSidebar
+export default NavBar

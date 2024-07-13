@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './Home';
-import LeftSidebar from "./components/LeftSidebar"
+import NavBar from "./components/NavBar"
 import './index.css';
 
 import {
@@ -12,7 +12,7 @@ import {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LeftSidebar />,
+    element: <NavBar />,
     children: [
       {
         path: '/',
