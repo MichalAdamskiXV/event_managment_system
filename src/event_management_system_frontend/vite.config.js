@@ -40,7 +40,7 @@ export default defineConfig({
         ),
       },
       {
-        find: '@', // Dodane dla aliasów
+        find: '@',
         replacement: path.resolve(__dirname, 'src'),
       },
     ],

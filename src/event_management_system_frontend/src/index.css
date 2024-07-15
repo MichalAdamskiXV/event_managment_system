@@ -64,6 +64,6 @@
       @apply border-border;
     }
     body {
-      @apply bg-body text-foreground;
+      @apply bg-body text-foreground overflow-x-hidden;
     }
   }

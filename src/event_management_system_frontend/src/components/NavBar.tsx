@@ -13,7 +13,7 @@ const NavBar = () => {
 
     return (
         <div>
-            <nav className="w-[100vw] p-3 bg-dark">
+            <nav className="w-[100%] p-3 bg-dark flex justify-between items-center">
                 <ul className="flex gap-6">
                     {
                         sidebarLinks.map(({ icon, id, path, title }) => (
@@ -26,6 +26,9 @@ const NavBar = () => {
                         ))
                     }
                 </ul>
+                <Link to='/createEvent'>
+                    <button className="hover:bg-dark bg-body w-[150px] p-2 py-3 text-white rounded-[8px] font-extrabold">Create Event</button>
+                </Link>
             </nav>
             <Outlet />
         </div>
