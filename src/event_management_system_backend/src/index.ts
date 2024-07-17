@@ -1,4 +1,4 @@
-import { Canister, None, Opt, query, Record, Some, text, update, Vec } from 'azle';
+import { Canister, None, Opt, query, Record, Some, text, update, Vec, nat } from 'azle';
 
 const EventOffer = Record({
     id: text,
@@ -14,6 +14,14 @@ const EventOffer = Record({
     secondImage: text,
     ticketPrice: text,
     likes: text
+});
+
+const EventSummary = Record({
+    id: text,
+    eventName: text,
+    organizers: text,
+    likes: text,
+    mainImage: text,
 });
 
 let events: {
@@ -38,12 +46,21 @@ export default Canister({
         return `Added Event: ${newOffer.eventName}`;
     }),
 
-    getEventsOffer: query([], Vec(EventOffer), () => {
-        return events;
+    getEventsOffer: query([nat, nat], Vec(EventSummary), (start, limit) => {
+        const selectedEvents = events
+            .slice(Number(start), Number(start) + Number(limit))
+            .map(event => ({
+                id: event.id,
+                eventName: event.eventName,
+                organizers: event.organizers,
+                likes: event.likes,
+                mainImage: event.mainImage
+            }));
+        return selectedEvents;
     }),
 
     selectSpecyficEvent: query([text], Opt(EventOffer), (id) => {
         const selectedEvent = events.find(event => event.id === id);
         return selectedEvent ? Some(selectedEvent) : None;
     })
-})
+});

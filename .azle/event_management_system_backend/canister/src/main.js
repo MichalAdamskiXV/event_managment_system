@@ -100587,6 +100587,13 @@ var EventOffer = Record2({
     ticketPrice: text,
     likes: text
 });
+var EventSummary = Record2({
+    id: text,
+    eventName: text,
+    organizers: text,
+    likes: text,
+    mainImage: text
+});
 var events = [];
 var src_default = Canister({
     createEventOffer: update([
@@ -100595,8 +100602,18 @@ var src_default = Canister({
         events.push(newOffer);
         return `Added Event: ${newOffer.eventName}`;
     }),
-    getEventsOffer: query([], Vec2(EventOffer), ()=>{
-        return events;
+    getEventsOffer: query([
+        nat,
+        nat
+    ], Vec2(EventSummary), (start, limit)=>{
+        const selectedEvents = events.slice(Number(start), Number(start) + Number(limit)).map((event)=>({
+                id: event.id,
+                eventName: event.eventName,
+                organizers: event.organizers,
+                likes: event.likes,
+                mainImage: event.mainImage
+            }));
+        return selectedEvents;
     }),
     selectSpecyficEvent: query([
         text

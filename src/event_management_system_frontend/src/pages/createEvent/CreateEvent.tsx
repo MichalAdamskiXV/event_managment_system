@@ -22,10 +22,12 @@ import { comporessImage } from "./compressImage";
 import { formFields, contactFields } from "@/constants";
 import { addEventOffer } from "@/backend";
 import Loader from "../../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
 
     const [addingEvent, setAddingEvent] = useState(false);
+    const navigate = useNavigate();
 
     const [eventImage, setEventImage] = useState({
         mainImage: "",
@@ -83,6 +85,7 @@ const CreateEvent = () => {
 
         await addEventOffer(createEventObject);
         setAddingEvent(false);
+        navigate('/');
     }
 
     return (
