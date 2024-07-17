@@ -13,6 +13,7 @@ const EventOffer = Record({
     mainImage: text,
     secondImage: text,
     ticketPrice: text,
+    likes: text
 });
 
 let events: {
@@ -28,6 +29,7 @@ let events: {
     mainImage: string,
     secondImage: string,
     ticketPrice: string,
+    likes: string
 }[] = [];
 
 export default Canister({

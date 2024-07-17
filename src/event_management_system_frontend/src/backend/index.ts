@@ -1,6 +1,6 @@
 import { event_management_system_backend } from '../../../declarations/event_management_system_backend';
 
-interface EventProps {
+export interface EventProps {
     id: string,
     eventName: string,
     eventDescription: string,
@@ -13,6 +13,7 @@ interface EventProps {
     mainImage: string,
     secondImage: string,
     ticketPrice: string,
+    likes: string
 }
 
 export const addEventOffer = async (eventOffer: EventProps) => {
@@ -22,5 +23,14 @@ export const addEventOffer = async (eventOffer: EventProps) => {
         return createEventOffer;
     } catch (error) {
         console.error("Failed to create event offer: ERROR - ", error)
+    }
+}
+
+export const fetchEvents = async () => {
+    try {
+        const events = await event_management_system_backend.getEventsOffer();
+        return events;
+    } catch (error) {
+        console.error("Failed to fetch events: ERROR - ", error);
     }
 }

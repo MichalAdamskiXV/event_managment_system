@@ -77,6 +77,7 @@ const CreateEvent = () => {
             id: generateId(),
             mainImage: eventImage.mainImage,
             secondImage: eventImage.secondImage,
+            likes: '0',
             ...values
         };
 

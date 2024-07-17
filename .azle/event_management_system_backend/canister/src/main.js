@@ -100565,7 +100565,8 @@ var EventOffer = Record2({
     phone: text,
     mainImage: text,
     secondImage: text,
-    ticketPrice: text
+    ticketPrice: text,
+    likes: text
 });
 var events = [];
 var src_default = Canister({
