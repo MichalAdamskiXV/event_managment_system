@@ -34,3 +34,12 @@ export const fetchEvents = async () => {
         console.error("Failed to fetch events: ERROR - ", error);
     }
 }
+
+export const selectEventById = async (eventId: string) => {
+    try {
+        const event = await event_management_system_backend.selectSpecyficEvent(eventId);
+        return event;
+    } catch (error) {
+        console.error(`Failed to fetch event with id: ${eventId}. ERROR - `, error);
+    }
+}

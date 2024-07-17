@@ -1,4 +1,4 @@
-import { Canister, query, Record, text, update, Vec } from 'azle';
+import { Canister, None, Opt, query, Record, Some, text, update, Vec } from 'azle';
 
 const EventOffer = Record({
     id: text,
@@ -40,5 +40,10 @@ export default Canister({
 
     getEventsOffer: query([], Vec(EventOffer), () => {
         return events;
+    }),
+
+    selectSpecyficEvent: query([text], Opt(EventOffer), (id) => {
+        const selectedEvent = events.find(event => event.id === id);
+        return selectedEvent ? Some(selectedEvent) : None;
     })
 })
