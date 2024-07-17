@@ -19,7 +19,6 @@ import {
     Textarea,
 } from "./imports"
 import { comporessImage } from "./compressImage";
-import { infer } from "zod";
 import { formFields, contactFields } from "@/constants";
 
 const CreateEvent = () => {
@@ -34,7 +33,6 @@ const CreateEvent = () => {
         { id: 'secondImage', name: 'secondImage', label: "Select Secondary Event Image", image: eventImage.secondImage },
     ];
 
-    // 1. Define your form.
     const form = useForm<z.infer<typeof eventSchema>>({
         resolver: zodResolver(eventSchema),
         defaultValues: {
@@ -65,7 +63,17 @@ const CreateEvent = () => {
     }
 
     function onSubmit(values: z.infer<typeof eventSchema>) {
-        console.log(values);
+        const generateId = () => {
+            return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+        };
+
+        const createEventObject = {
+            id: generateId(),
+            mainImage: eventImage.mainImage,
+            secondImage: eventImage.secondImage,
+            ...values
+        };
+        console.log(createEventObject);
     }
 
     return (

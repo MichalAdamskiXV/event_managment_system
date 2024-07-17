@@ -30,7 +30,7 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
-var _class, _class1, _class2, _class3, _class4, _class5;
+var _class, _class1, _class2, _class3, _class4, _class5, _class6;
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -98904,8 +98904,43 @@ function Some(value) {
 var None = {
     None: null
 };
+// node_modules/azle/src/lib/candid/types/constructed/record.ts
+function Record2(obj) {
+    return _extends({}, obj, {
+        tsType: {},
+        toBytes (data) {
+            return encode3(this, data);
+        },
+        fromBytes (bytes2) {
+            return decode3(this, bytes2);
+        },
+        getIdl (parents) {
+            return idl_exports.Record(toIdlMap(obj, parents));
+        }
+    });
+}
+// node_modules/azle/src/lib/candid/types/constructed/vec.ts
+var AzleVec = (_class1 = class {
+    toBytes(data) {
+        return encode3(this, data);
+    }
+    fromBytes(bytes2) {
+        return decode3(this, bytes2);
+    }
+    getIdl(parents) {
+        return idl_exports.Vec(toIdl(this.innerType, parents));
+    }
+    constructor(t){
+        this.tsType = {};
+        this._azleKind = "AzleVec";
+        this.innerType = t;
+    }
+}, _class1._azleKind = "AzleVec", _class1);
+function Vec2(t) {
+    return new AzleVec(t);
+}
 // node_modules/azle/src/lib/candid/types/primitive/nats/nat.ts
-var AzleNat = (_class1 = class {
+var AzleNat = (_class2 = class {
     static toBytes(data) {
         return encode3(this, data);
     }
@@ -98918,10 +98953,10 @@ var AzleNat = (_class1 = class {
     constructor(){
         this._azleKind = "AzleNat";
     }
-}, _class1._azleKind = "AzleNat", _class1);
+}, _class2._azleKind = "AzleNat", _class2);
 var nat = AzleNat;
 // node_modules/azle/src/lib/candid/types/primitive/null.ts
-var AzleNull = (_class2 = class {
+var AzleNull = (_class3 = class {
     static toBytes(data) {
         return encode3(this, data);
     }
@@ -98934,10 +98969,10 @@ var AzleNull = (_class2 = class {
     constructor(){
         this._azleKind = "AzleNull";
     }
-}, _class2._azleKind = "AzleNull", _class2);
+}, _class3._azleKind = "AzleNull", _class3);
 var Null2 = AzleNull;
 // node_modules/azle/src/lib/candid/types/primitive/text.ts
-var AzleText = (_class3 = class {
+var AzleText = (_class4 = class {
     static toBytes(data) {
         return encode3(this, data);
     }
@@ -98950,7 +98985,7 @@ var AzleText = (_class3 = class {
     constructor(){
         this._azleKind = "AzleText";
     }
-}, _class3._azleKind = "AzleText", _class3);
+}, _class4._azleKind = "AzleText", _class4);
 var text = AzleText;
 // node_modules/azle/src/lib/candid/types/reference/service/canister_function/query_update.ts
 function createQueryMethods(canisterOptions) {
@@ -99106,7 +99141,7 @@ function Canister(canisterOptions) {
     return result;
 }
 // node_modules/azle/src/lib/candid/types/reference/principal.ts
-var Principal3 = (_class4 = class extends Principal {
+var Principal3 = (_class5 = class extends Principal {
     static toBytes(data) {
         return encode3(this, data);
     }
@@ -99116,7 +99151,7 @@ var Principal3 = (_class4 = class extends Principal {
     static getIdl(_parents) {
         return idl_exports.Principal;
     }
-}, _class4._azleKind = "Principal", _class4);
+}, _class5._azleKind = "Principal", _class5);
 // node_modules/azle/src/lib/candid/serde/decode.ts
 function decode3(candidType, data) {
     if (Array.isArray(candidType)) {
@@ -99334,7 +99369,7 @@ function encodeMultiple(candidTypes, data) {
     return new Uint8Array(idl_exports.encode(idls, values));
 }
 // node_modules/azle/src/lib/candid/types/primitive/nats/nat64.ts
-var AzleNat64 = (_class5 = class {
+var AzleNat64 = (_class6 = class {
     static toBytes(data) {
         return encode3(this, data);
     }
@@ -99347,7 +99382,7 @@ var AzleNat64 = (_class5 = class {
     constructor(){
         this._azleKind = "AzleNat64";
     }
-}, _class5._azleKind = "AzleNat64", _class5);
+}, _class6._azleKind = "AzleNat64", _class6);
 var nat64 = AzleNat64;
 // node_modules/azle/src/lib/ic/call_raw.ts
 function callRaw(canisterId, method2, argsRaw, payment) {
@@ -100050,6 +100085,21 @@ function query(paramCandidTypes, returnCandidType, callback, methodArgs) {
         guard: methodArgs == null ? void 0 : methodArgs.guard
     };
 }
+// node_modules/azle/src/lib/canister_methods/methods/update.ts
+function update(paramCandidTypes, returnCandidType, callback, methodArgs) {
+    const finalCallback = callback === void 0 ? void 0 : (...args)=>{
+        var _methodArgs_manual;
+        executeMethod("update", args, callback, paramCandidTypes, returnCandidType, (_methodArgs_manual = methodArgs == null ? void 0 : methodArgs.manual) != null ? _methodArgs_manual : false);
+    };
+    return {
+        mode: "update",
+        callback: finalCallback,
+        paramCandidTypes,
+        returnCandidType,
+        async: callback === void 0 ? false : isAsync(callback),
+        guard: methodArgs == null ? void 0 : methodArgs.guard
+    };
+}
 // node_modules/@dfinity/principal/lib/esm/utils/base32.js
 var alphabet2 = "abcdefghijklmnopqrstuvwxyz234567";
 var lookupTable2 = /* @__PURE__ */ Object.create(null);
@@ -100503,11 +100553,30 @@ var Principal4 = class _Principal {
     }
 };
 // src/event_management_system_backend/src/index.ts
+var EventOffer = Record2({
+    id: text,
+    eventName: text,
+    eventDescription: text,
+    localization: text,
+    organizers: text,
+    hourFrom: text,
+    hourTo: text,
+    email: text,
+    phone: text,
+    mainImage: text,
+    secondImage: text,
+    ticketPrice: text
+});
+var events = [];
 var src_default = Canister({
-    greet: query([
-        text
-    ], text, (name)=>{
-        return `Hello, ${name}!`;
+    createEventOffer: update([
+        EventOffer
+    ], text, (newOffer)=>{
+        events.push(newOffer);
+        return `Added Event: ${newOffer.eventName}`;
+    }),
+    getEventsOffer: query([], Vec2(EventOffer), ()=>{
+        return events;
     })
 });
 // <stdin>

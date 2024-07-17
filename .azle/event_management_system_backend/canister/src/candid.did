@@ -1,3 +1,4 @@
 service: () -> {
-    greet: (text) -> (text) query;
+    createEventOffer: (record {id:text; localization:text; eventDescription:text; secondImage:text; email:text; phone:text; hourTo:text; organizers:text; mainImage:text; hourFrom:text; ticketPrice:text; eventName:text}) -> (text);
+    getEventsOffer: () -> (vec record {id:text; localization:text; eventDescription:text; secondImage:text; email:text; phone:text; hourTo:text; organizers:text; mainImage:text; hourFrom:text; ticketPrice:text; eventName:text}) query;
 }
