@@ -18,12 +18,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        'body': '#222',
-        'dark': '#151515',
-        'light': '#F5F5F5',
-        'red': '#D60000',
+        body: '#222',
+        dark: '#151515',
+        light: '#F5F5F5',
+        red: '#D60000',
         'aqua-blue': '#00C6CF',
         'form-gray': '#64748B',
+        darkOpacity: 'rgba(0, 0, 0, 0.79)',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

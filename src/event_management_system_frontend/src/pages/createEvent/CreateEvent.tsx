@@ -20,8 +20,12 @@ import {
 } from "./imports"
 import { comporessImage } from "./compressImage";
 import { formFields, contactFields } from "@/constants";
+import { addEventOffer } from "@/backend";
+import Loader from "../../components/Loader";
 
 const CreateEvent = () => {
+
+    const [addingEvent, setAddingEvent] = useState(false);
 
     const [eventImage, setEventImage] = useState({
         mainImage: "",
@@ -62,7 +66,9 @@ const CreateEvent = () => {
         }
     }
 
-    function onSubmit(values: z.infer<typeof eventSchema>) {
+    const onSubmit = async (values: z.infer<typeof eventSchema>) => {
+        setAddingEvent(true);
+
         const generateId = () => {
             return Date.now().toString() + Math.random().toString(36).substr(2, 9);
         };
@@ -73,11 +79,14 @@ const CreateEvent = () => {
             secondImage: eventImage.secondImage,
             ...values
         };
-        console.log(createEventObject);
+
+        await addEventOffer(createEventObject);
+        setAddingEvent(false);
     }
 
     return (
-        <div className="p-6 w-[100%] bg-body h-[100%] flex gap-6 pt-12">
+        <div className="p-6 w-[100%] bg-body h-[100%] flex gap-6 pt-12 relative">
+            {addingEvent && <Loader />}
             <div className="w-[100%] flex justify-center">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-6 flex-wrap justify-center">
