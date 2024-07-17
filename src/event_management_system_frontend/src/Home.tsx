@@ -31,7 +31,9 @@ const Home = () => {
                             <div className="pt-1">
                                 <h3 className="font-extrabold text-white text-xl">{event.eventName}</h3>
                                 <p className="font-bold text-light text-lg">{event.organizers}</p>
-                                <span className="flex items-center gap-3 text-lg text-light pt-1"><FaHeart className="text-red" />{event.likes}</span>
+                                <span className="flex items-center gap-3 text-lg text-light pt-1">
+                                    <FaHeart className="text-red" />{event.likes}
+                                </span>
                             </div>
                         </div>
                     </Link>

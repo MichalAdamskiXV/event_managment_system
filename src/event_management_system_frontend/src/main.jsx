@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './Home';
 import NavBar from "./components/NavBar"
+import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
 import './index.css';
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: '/createEvent',
         element: <CreateEvent />
+      },
+      {
+        path: '/event/:id',
+        element: <Event />
       }
     ]
   }
