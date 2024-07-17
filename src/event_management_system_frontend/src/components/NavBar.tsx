@@ -1,7 +1,5 @@
 import { Link, Outlet } from "react-router-dom"
-import { FaHome } from "react-icons/fa";
-import { FaSearch } from "react-icons/fa";
-import { FaHotjar } from "react-icons/fa";
+import { FaHome, FaHotjar, FaSearch } from "react-icons/fa";
 
 const NavBar = () => {
 
