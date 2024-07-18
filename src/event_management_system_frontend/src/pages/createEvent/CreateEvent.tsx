@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { eventSchema } from "./formSchema";
 
 import {
@@ -11,16 +11,13 @@ import {
     FormLabel,
     FormMessage,
     Input,
-    cn,
-    format,
     useForm,
     z,
     zodResolver,
     Textarea,
 } from "./imports"
-import { comporessImage } from "./compressImage";
 import { formFields, contactFields } from "@/constants";
-import { addEventBasicInfo, addEventImages } from "@/backend";
+import { addEventBasicInfo } from "@/backend";
 import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 
@@ -28,16 +25,6 @@ const CreateEvent = () => {
 
     const [addingEvent, setAddingEvent] = useState(false);
     const navigate = useNavigate();
-
-    const [eventImage, setEventImage] = useState({
-        mainImage: "",
-        secondImage: ""
-    })
-
-    const imageFields = [
-        { id: 'mainImage', name: 'mainImage', label: "Select Main Event Image", image: eventImage.mainImage },
-        { id: 'secondImage', name: 'secondImage', label: "Select Secondary Event Image", image: eventImage.secondImage },
-    ];
 
     const form = useForm<z.infer<typeof eventSchema>>({
         resolver: zodResolver(eventSchema),
@@ -51,21 +38,6 @@ const CreateEvent = () => {
         },
     });
 
-    const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, files } = event.target;
-        if (files && files.length > 0) {
-            try {
-                const image = files[0];
-                let base64Image = await comporessImage(image);
-                if (base64Image) {
-                    setEventImage(prev => ({ ...prev, [name]: base64Image }));
-                }
-            } catch (error) {
-                console.error("Failed to compress image: ERROR - ", error);
-            }
-        }
-    }
-
     const onSubmit = async (values: z.infer<typeof eventSchema>) => {
         setAddingEvent(true);
         try {
@@ -74,22 +46,9 @@ const CreateEvent = () => {
             };
 
             const eventId = generateId();
-            const basicInfo = { ...values, id: generateId(), likes: '0', mainImage: "", secondImage: "" };
+            const basicInfo = { ...values, id: eventId, likes: '0' };
 
             await addEventBasicInfo(basicInfo);
-            await addEventImages(eventId, eventImage.mainImage, eventImage.secondImage);
-
-            // const createEventObject = {
-            //     id: generateId(),
-            //     mainImage: eventImage.mainImage,
-            //     secondImage: eventImage.secondImage,
-            //     likes: '0',
-            //     ...values
-            // };
-
-            // await addEventOffer(createEventObject);
-
-
         } catch (error) {
             console.error("Failed to create event object: ERROR - ", error)
         }
@@ -173,27 +132,6 @@ const CreateEvent = () => {
                             </div>
                         </div>
                         <div className="w-[100%] p-2 flex justify-center gap-6">
-                            <div className="w-[600px] flex justify-between">
-                                {
-                                    imageFields.map((image) => (
-                                        <div key={image.id} className={`${image.image ? 'border-none' : "border-solid border-[2px] border-aqua-blue"} w-[280px] h-[280px] text-aqua-blue rounded-[8px] flex items-center justify-center`}>
-                                            <div>
-                                                <input type="file" onChange={handleChange} name={image.name} id={image.name} required className="opacity-0 width-[0.1px] height-[0.1px] absolute" />
-                                                {
-                                                    image.image ? (
-                                                        <img alt="Main Image" src={image.image} className="w-[280px] h-[280px] object-cover rounded-[8px]" />
-                                                    ) : (
-                                                        <label htmlFor={image.name} className="block relative w-[250px] h-[240px] flex items-center justify-center text-aqua-blue cursor-pointer font-bold">
-                                                            {image.label}
-                                                            <p className="absolute bottom-[-35px] left-[10px]"></p>
-                                                        </label>
-                                                    )
-                                                }
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                            </div>
                             <div className="w-[600px]">
                                 <p className="text-lg font-bold text-form-gray text-justify w-[100%] pb-6">
                                     Check your description again. Remember to provide the exact time, date, location, and organizers.
@@ -205,7 +143,7 @@ const CreateEvent = () => {
                     </form>
                 </Form>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -31,8 +31,8 @@ const Event = () => {
                             {event.eventName}
                         </header>
                         <div className="flex justify-center gap-6 w-[80%]">
-                            <img alt={event.eventName} src={event.mainImage} className="w-[400px] h-[300px]" />
-                            <img alt={event.eventName} src={event.secondImage} className="w-[400px] h-[300px]" />
+                            {/* <img alt={event.eventName} src={event.mainImage} className="w-[400px] h-[300px]" />
+                            <img alt={event.eventName} src={event.secondImage} className="w-[400px] h-[300px]" /> */}
                         </div>
                         <div key={event.id}>
                             <h1>{event.id}</h1>

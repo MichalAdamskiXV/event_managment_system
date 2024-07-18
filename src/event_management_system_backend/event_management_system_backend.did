@@ -1,6 +1,5 @@
 service: () -> {
-    addEventBasicInfo: (record {id:text; localization:text; eventDescription:text; secondImage:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; mainImage:text; hourFrom:text; ticketPrice:text; eventName:text}) -> (text);
-    addEventImages: (text, text, text) -> (text);
-    getEventsOffer: (nat, nat) -> (vec record {id:text; likes:text; organizers:text; mainImage:text; eventName:text}) query;
-    selectSpecyficEvent: (text) -> (opt record {id:text; localization:text; eventDescription:text; secondImage:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; mainImage:text; hourFrom:text; ticketPrice:text; eventName:text}) query;
+    addEventBasicInfo: (record {id:text; localization:text; eventDescription:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; hourFrom:text; ticketPrice:text; eventName:text}) -> (text);
+    getEventsOffer: (nat, nat) -> (vec record {id:text; likes:text; organizers:text; eventName:text}) query;
+    selectSpecyficEvent: (text) -> (opt record {id:text; localization:text; eventDescription:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; hourFrom:text; ticketPrice:text; eventName:text}) query;
 }

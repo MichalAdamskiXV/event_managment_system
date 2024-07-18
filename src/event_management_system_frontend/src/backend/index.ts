@@ -10,8 +10,6 @@ export interface EventProps {
     hourTo: string;
     email: string;
     phone: string;
-    mainImage: string;
-    secondImage: string;
     ticketPrice: string;
     likes: string;
 }
@@ -21,7 +19,6 @@ export interface EventSummary {
     eventName: string,
     organizers: string,
     likes: string,
-    mainImage: string,
 }
 
 export const addEventBasicInfo = async (eventOffer: EventProps) => {
@@ -30,15 +27,6 @@ export const addEventBasicInfo = async (eventOffer: EventProps) => {
         console.log(createEventOffer);
     } catch (error) {
         console.error("Failed to create event offer with basic info: ERROR - ", error);
-    }
-}
-
-export const addEventImages = async (id: string, mainImage: string, secondImage: string) => {
-    try {
-        const createEventImages = await event_management_system_backend.addEventImages(id, mainImage, secondImage);
-        console.log(createEventImages);
-    } catch (error) {
-        console.error("Failed to add event images: ERROR - ", error);
     }
 }
 

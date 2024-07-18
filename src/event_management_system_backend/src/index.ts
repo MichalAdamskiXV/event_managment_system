@@ -10,8 +10,6 @@ const EventOffer = Record({
     hourTo: text,
     email: text,
     phone: text,
-    mainImage: text,
-    secondImage: text,
     ticketPrice: text,
     likes: text
 });
@@ -21,7 +19,6 @@ const EventSummary = Record({
     eventName: text,
     organizers: text,
     likes: text,
-    mainImage: text,
 });
 
 let events: {
@@ -34,8 +31,6 @@ let events: {
     hourTo: string,
     email: string,
     phone: string,
-    mainImage: string,
-    secondImage: string,
     ticketPrice: string,
     likes: string
 }[] = [];
@@ -52,22 +47,10 @@ export default Canister({
             hourTo: newEvent.hourTo,
             email: newEvent.email,
             phone: newEvent.phone,
-            mainImage: "",
-            secondImage: "",
             ticketPrice: newEvent.ticketPrice,
             likes: newEvent.likes
         });
         return `Added basic info for event: ${newEvent.eventName}`
-    }),
-
-    addEventImages: update([text, text, text], text, (id, mainImage, secondImage) => {
-        const event = events.find(event => event.id = id);
-        if (event) {
-            event.mainImage = mainImage;
-            event.secondImage = secondImage;
-            return `Added images for event: ${event.eventName}`;
-        }
-        return 'Failed to find event.'
     }),
 
     getEventsOffer: query([nat, nat], Vec(EventSummary), (start, limit) => {
@@ -78,7 +61,6 @@ export default Canister({
                 eventName: event.eventName,
                 organizers: event.organizers,
                 likes: event.likes,
-                mainImage: event.mainImage
             }));
         return selectedEvents;
     }),

@@ -100582,8 +100582,6 @@ var EventOffer = Record2({
     hourTo: text,
     email: text,
     phone: text,
-    mainImage: text,
-    secondImage: text,
     ticketPrice: text,
     likes: text
 });
@@ -100591,8 +100589,7 @@ var EventSummary = Record2({
     id: text,
     eventName: text,
     organizers: text,
-    likes: text,
-    mainImage: text
+    likes: text
 });
 var events = [];
 var src_default = Canister({
@@ -100609,25 +100606,10 @@ var src_default = Canister({
             hourTo: newEvent.hourTo,
             email: newEvent.email,
             phone: newEvent.phone,
-            mainImage: "",
-            secondImage: "",
             ticketPrice: newEvent.ticketPrice,
             likes: newEvent.likes
         });
         return `Added basic info for event: ${newEvent.eventName}`;
-    }),
-    addEventImages: update([
-        text,
-        text,
-        text
-    ], text, (id2, mainImage, secondImage)=>{
-        const event = events.find((event2)=>event2.id = id2);
-        if (event) {
-            event.mainImage = mainImage;
-            event.secondImage = secondImage;
-            return `Added images for event: ${event.eventName}`;
-        }
-        return "Failed to find event.";
     }),
     getEventsOffer: query([
         nat,
@@ -100637,8 +100619,7 @@ var src_default = Canister({
                 id: event.id,
                 eventName: event.eventName,
                 organizers: event.organizers,
-                likes: event.likes,
-                mainImage: event.mainImage
+                likes: event.likes
             }));
         return selectedEvents;
     }),
