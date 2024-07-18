@@ -100596,11 +100596,38 @@ var EventSummary = Record2({
 });
 var events = [];
 var src_default = Canister({
-    createEventOffer: update([
+    addEventBasicInfo: update([
         EventOffer
-    ], text, (newOffer)=>{
-        events.push(newOffer);
-        return `Added Event: ${newOffer.eventName}`;
+    ], text, (newEvent)=>{
+        events.push({
+            id: newEvent.id,
+            eventName: newEvent.eventName,
+            eventDescription: newEvent.eventDescription,
+            localization: newEvent.localization,
+            organizers: newEvent.organizers,
+            hourFrom: newEvent.hourFrom,
+            hourTo: newEvent.hourTo,
+            email: newEvent.email,
+            phone: newEvent.phone,
+            mainImage: "",
+            secondImage: "",
+            ticketPrice: newEvent.ticketPrice,
+            likes: newEvent.likes
+        });
+        return `Added basic info for event: ${newEvent.eventName}`;
+    }),
+    addEventImages: update([
+        text,
+        text,
+        text
+    ], text, (id2, mainImage, secondImage)=>{
+        const event = events.find((event2)=>event2.id = id2);
+        if (event) {
+            event.mainImage = mainImage;
+            event.secondImage = secondImage;
+            return `Added images for event: ${event.eventName}`;
+        }
+        return "Failed to find event.";
     }),
     getEventsOffer: query([
         nat,

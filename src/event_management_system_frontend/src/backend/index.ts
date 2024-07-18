@@ -24,19 +24,28 @@ export interface EventSummary {
     mainImage: string,
 }
 
-export const addEventOffer = async (eventOffer: EventProps) => {
+export const addEventBasicInfo = async (eventOffer: EventProps) => {
     try {
-        const createEventOffer = await event_management_system_backend.createEventOffer(eventOffer);
+        const createEventOffer = await event_management_system_backend.addEventBasicInfo(eventOffer);
         console.log(createEventOffer);
-        return createEventOffer;
     } catch (error) {
-        console.error("Failed to create event offer: ERROR - ", error);
+        console.error("Failed to create event offer with basic info: ERROR - ", error);
     }
-};
+}
+
+export const addEventImages = async (id: string, mainImage: string, secondImage: string) => {
+    try {
+        const createEventImages = await event_management_system_backend.addEventImages(id, mainImage, secondImage);
+        console.log(createEventImages);
+    } catch (error) {
+        console.error("Failed to add event images: ERROR - ", error);
+    }
+}
 
 export const fetchEvents = async (start: number, limit: number) => {
     try {
         const events = await event_management_system_backend.getEventsOffer(BigInt(start), BigInt(limit));
+        console.log(events);
         return events;
     } catch (error) {
         console.error("Failed to fetch events: ERROR - ", error);

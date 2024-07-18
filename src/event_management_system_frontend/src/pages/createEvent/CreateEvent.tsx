@@ -20,7 +20,7 @@ import {
 } from "./imports"
 import { comporessImage } from "./compressImage";
 import { formFields, contactFields } from "@/constants";
-import { addEventOffer } from "@/backend";
+import { addEventBasicInfo, addEventImages } from "@/backend";
 import Loader from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 
@@ -52,15 +52,13 @@ const CreateEvent = () => {
     });
 
     const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value, files } = event.target;
+        const { name, files } = event.target;
         if (files && files.length > 0) {
             try {
                 const image = files[0];
-
                 let base64Image = await comporessImage(image);
                 if (base64Image) {
-                    name === "mainImage" && setEventImage({ ...eventImage, mainImage: base64Image })
-                    name === "secondImage" && setEventImage({ ...eventImage, secondImage: base64Image });
+                    setEventImage(prev => ({ ...prev, [name]: base64Image }));
                 }
             } catch (error) {
                 console.error("Failed to compress image: ERROR - ", error);
@@ -70,20 +68,32 @@ const CreateEvent = () => {
 
     const onSubmit = async (values: z.infer<typeof eventSchema>) => {
         setAddingEvent(true);
+        try {
+            const generateId = () => {
+                return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+            };
 
-        const generateId = () => {
-            return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-        };
+            const eventId = generateId();
+            const basicInfo = { ...values, id: generateId(), likes: '0', mainImage: "", secondImage: "" };
 
-        const createEventObject = {
-            id: generateId(),
-            mainImage: eventImage.mainImage,
-            secondImage: eventImage.secondImage,
-            likes: '0',
-            ...values
-        };
+            await addEventBasicInfo(basicInfo);
+            await addEventImages(eventId, eventImage.mainImage, eventImage.secondImage);
 
-        await addEventOffer(createEventObject);
+            // const createEventObject = {
+            //     id: generateId(),
+            //     mainImage: eventImage.mainImage,
+            //     secondImage: eventImage.secondImage,
+            //     likes: '0',
+            //     ...values
+            // };
+
+            // await addEventOffer(createEventObject);
+
+
+        } catch (error) {
+            console.error("Failed to create event object: ERROR - ", error)
+        }
+
         setAddingEvent(false);
         navigate('/');
     }

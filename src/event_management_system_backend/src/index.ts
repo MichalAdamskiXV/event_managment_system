@@ -41,9 +41,33 @@ let events: {
 }[] = [];
 
 export default Canister({
-    createEventOffer: update([EventOffer], text, (newOffer) => {
-        events.push(newOffer);
-        return `Added Event: ${newOffer.eventName}`;
+    addEventBasicInfo: update([EventOffer], text, (newEvent) => {
+        events.push({
+            id: newEvent.id,
+            eventName: newEvent.eventName,
+            eventDescription: newEvent.eventDescription,
+            localization: newEvent.localization,
+            organizers: newEvent.organizers,
+            hourFrom: newEvent.hourFrom,
+            hourTo: newEvent.hourTo,
+            email: newEvent.email,
+            phone: newEvent.phone,
+            mainImage: "",
+            secondImage: "",
+            ticketPrice: newEvent.ticketPrice,
+            likes: newEvent.likes
+        });
+        return `Added basic info for event: ${newEvent.eventName}`
+    }),
+
+    addEventImages: update([text, text, text], text, (id, mainImage, secondImage) => {
+        const event = events.find(event => event.id = id);
+        if (event) {
+            event.mainImage = mainImage;
+            event.secondImage = secondImage;
+            return `Added images for event: ${event.eventName}`;
+        }
+        return 'Failed to find event.'
     }),
 
     getEventsOffer: query([nat, nat], Vec(EventSummary), (start, limit) => {
