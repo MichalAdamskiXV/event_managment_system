@@ -100589,7 +100589,8 @@ var EventSummary = Record2({
     id: text,
     eventName: text,
     organizers: text,
-    likes: text
+    likes: text,
+    eventDescription: text
 });
 var events = [];
 var src_default = Canister({
@@ -100619,7 +100620,8 @@ var src_default = Canister({
                 id: event.id,
                 eventName: event.eventName,
                 organizers: event.organizers,
-                likes: event.likes
+                likes: event.likes,
+                eventDescription: event.eventDescription
             }));
         return selectedEvents;
     }),

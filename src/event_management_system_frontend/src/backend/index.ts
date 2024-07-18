@@ -15,10 +15,11 @@ export interface EventProps {
 }
 
 export interface EventSummary {
-    id: string,
-    eventName: string,
-    organizers: string,
-    likes: string,
+    id: string;
+    eventName: string;
+    organizers: string;
+    likes: string;
+    eventDescription: string;
 }
 
 export const addEventBasicInfo = async (eventOffer: EventProps) => {

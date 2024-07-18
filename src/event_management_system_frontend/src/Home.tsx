@@ -34,18 +34,27 @@ const Home = () => {
                 <div>Loading...</div>
             ) : (
                 events?.map((event) => (
-                    <Link key={event.id} to={`/event/${event.id}`}>
-                        <div className="w-[300px] bg-dark rounded-[8px] p-3 cursor-pointer shadow-2xl">
-                            {/* <img src={event.mainImage} alt={event.eventName} className="w-[300px] h-[250px] object-cover rounded-[8px]" /> */}
-                            <div className="pt-1">
-                                <h3 className="font-extrabold text-white text-xl">{event.eventName}</h3>
-                                <p className="font-bold text-light text-lg">{event.organizers}</p>
-                                <span className="flex items-center gap-3 text-lg text-light pt-1">
-                                    <FaHeart className="text-red" />{event.likes}
+                    <div key={event.id} className="w-[800px] h-[260px] bg-dark rounded-[8px] shadow-2xl flex p-2 relative">
+                        <div className="w-[100%] h-[100%]">
+                            <div className="pl-1 pr-1">
+                                <h3 className="font-extrabold text-aqua-blue text-2xl">{event.eventName}</h3>
+                                <p className="font-bold text-form-gray text-xl pt-1">{event.organizers}</p>
+                                <p className="text-lg text-light pt-3 text-justify">
+                                    {event.eventDescription.length > 300 && event.eventDescription.slice(0, 300) + " ..."}
+                                </p>
+                                <span className="flex items-center gap-3 text-xl text-light">
+                                    <div className="flex items-center gap-3 absolute bottom-2">
+                                        <FaHeart className="text-red" />{event.likes}
+                                    </div>
+                                    <div className="absolute bottom-2 right-2">
+                                        <Link to={`/event/${event.id}`}>
+                                            <button className="hover:bg-body text-lg font-bold cursor-pointer text-aqua-blue rounded-[8px] bg-dark border-solid border-body border-[2px] p-2 px-4 flex items-center">See More</button>
+                                        </Link>
+                                    </div>
                                 </span>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))
             )}
             <div className="w-full flex justify-between mt-4">

@@ -19,6 +19,7 @@ const EventSummary = Record({
     eventName: text,
     organizers: text,
     likes: text,
+    eventDescription: text,
 });
 
 let events: {
@@ -61,6 +62,7 @@ export default Canister({
                 eventName: event.eventName,
                 organizers: event.organizers,
                 likes: event.likes,
+                eventDescription: event.eventDescription,
             }));
         return selectedEvents;
     }),
