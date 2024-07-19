@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Home from './Home';
+import Home from './pages/homePage/Home';
 import NavBar from "./components/NavBar"
 import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
