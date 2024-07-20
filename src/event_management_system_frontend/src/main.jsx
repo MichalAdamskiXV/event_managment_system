@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar"
 import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
 import './index.css';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import {
   createBrowserRouter,
@@ -32,8 +33,16 @@ const router = createBrowserRouter([
   }
 ])
 
+const PayPalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+
+const initialOptions = {
+  "client-id": PayPalClientId
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <PayPalScriptProvider options={initialOptions}>
+      <RouterProvider router={router}/>
+    </PayPalScriptProvider>
   </React.StrictMode>,
 );
