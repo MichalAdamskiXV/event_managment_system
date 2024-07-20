@@ -49,3 +49,21 @@ export const selectEventById = async (eventId: string) => {
         console.error(`Failed to fetch event with id: ${eventId}. ERROR - `, error);
     }
 };
+
+export const likeEvent = async (eventId: string) => {
+    try {
+        const likedEvent = await event_management_system_backend.likeEvent(eventId);
+        return likedEvent;
+    } catch (error) {
+        console.error(`Failed to like event with id: ${eventId}. ERROR `, error)
+    }
+}
+
+export const unlikeEvent = async (eventId: string) => {
+    try {
+        const unlikedEvent = await event_management_system_backend.unlikeEvent(eventId);
+        return unlikedEvent;
+    } catch (error) {
+        console.error(`Failed to like event with id: ${eventId}. ERROR `, error)
+    }
+}

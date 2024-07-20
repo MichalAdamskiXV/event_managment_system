@@ -2,12 +2,18 @@ import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { EventSummary, fetchEvents } from "../../backend";
 import { useEffect, useState } from "react";
-import { addToFavorities, getFavoritedEvents } from "./localStorage";
+import { addToFavorities, getFavoritedEvents, unlikeEventBackend, likeBackendLikes } from "./localStorage";
+import DotsLoader from "@/components/DotsLoader";
+import { string } from "zod";
 
 const Home = () => {
     const [events, setEvents] = useState<EventSummary[]>();
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [likeLoading, setLikeLoading] = useState({
+        eventId: '',
+        setLoading: false
+    });
 
     useEffect(() => {
         fetchData();
@@ -30,20 +36,41 @@ const Home = () => {
 
     const [currentLikes, setCurrentLikes] = useState<{ eventId: string }[]>([]);
 
-    const handleLikeChange = (eventItemId: string) => {
-        setCurrentLikes((prevData) => {
-            const alreadyLiked = prevData.some(like => like.eventId === eventItemId);
+    const handleLikeChange = async (eventItemId: string) => {
+        const alreadyLiked = currentLikes.some(like => like.eventId === eventItemId);
+        const updatedLikes = alreadyLiked
+            ? currentLikes.filter(like => like.eventId !== eventItemId)
+            : [...currentLikes, { eventId: eventItemId }];
+
+        setCurrentLikes(updatedLikes);
+
+        try {
+            setLikeLoading({ eventId: eventItemId, setLoading: true });
             if (alreadyLiked) {
-                // Remove the like if it already exists
-                return prevData.filter(like => like.eventId !== eventItemId);
+                await unlikeEventBackend(eventItemId);
+                setLikeLoading({ eventId: eventItemId, setLoading: false });
             } else {
-                return [...prevData, { eventId: eventItemId }];
+                await likeBackendLikes(eventItemId);
+                setLikeLoading({ eventId: eventItemId, setLoading: false });
             }
-        });
+
+            setEvents((prevEvents) =>
+                prevEvents?.map((eventItem) => {
+                    if (eventItem.id === eventItemId) {
+                        const updatedLikesCount = alreadyLiked
+                            ? parseInt(eventItem.likes) - 1
+                            : parseInt(eventItem.likes) + 1;
+                        return { ...eventItem, likes: updatedLikesCount.toString() };
+                    }
+                    return eventItem;
+                })
+            );
+        } catch (error) {
+            console.error("Failed to update backend likes. ERROR - ", error);
+        }
     };
 
     useEffect(() => {
-
         const eventsId = events?.map((eventItem) => eventItem.id)
         eventsId && addToFavorities(currentLikes, eventsId);
     }, [currentLikes])
@@ -77,7 +104,7 @@ const Home = () => {
                                                 name={eventItem.id}
                                                 onClick={() => handleLikeChange(eventItem.id)}
                                             />
-                                            {eventItem.likes}
+                                            {likeLoading.eventId === eventItem.id && likeLoading.setLoading ? (<span className="pl-3"><DotsLoader /></span>) : eventItem.likes}
                                         </div>
                                         <div className="absolute bottom-2 right-2">
                                             <Link to={`/event/${eventItem.id}`}>

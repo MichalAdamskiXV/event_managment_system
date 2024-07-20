@@ -88,3 +88,16 @@
         transform: rotate(360deg);
     }
 } 
+
+.dotsLoader {
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 15px 0 #ffffff, -15px 0 rgba(240, 240, 240, 0.133);background: #ffffff }
+    33% {box-shadow: 15px 0 #ffffff, -15px 0 rgba(240, 240, 240, 0.133);background: rgba(240, 240, 240, 0.133)}
+    66% {box-shadow: 15px 0 rgba(240, 240, 240, 0.133),-15px 0 #ffffff; background: rgba(240, 240, 240, 0.133)}
+    100%{box-shadow: 15px 0 rgba(240, 240, 240, 0.133),-15px 0 #ffffff; background: #ffffff }
+}

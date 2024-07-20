@@ -1,1 +1,1 @@
-{"canister_methods":{"queries":[{"name":"getEventsOffer","composite":false},{"name":"selectSpecyficEvent","composite":false}],"updates":[{"name":"addEventBasicInfo"}],"callbacks":{}}}
+{"canister_methods":{"queries":[{"name":"getEventsOffer","composite":false},{"name":"selectSpecyficEvent","composite":false}],"updates":[{"name":"addEventBasicInfo"},{"name":"likeEvent"},{"name":"unlikeEvent"}],"callbacks":{}}}

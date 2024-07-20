@@ -70,5 +70,33 @@ export default Canister({
     selectSpecyficEvent: query([text], Opt(EventOffer), (id) => {
         const selectedEvent = events.find(event => event.id === id);
         return selectedEvent ? Some(selectedEvent) : None;
+    }),
+
+    likeEvent: update([text], text, (id) => {
+        const eventIndex = events.findIndex(eventItem => eventItem.id === id);
+        const selectedEvent = events[eventIndex];
+        const like = parseInt(selectedEvent.likes);
+        const updateLike = like + 1;
+
+        events[eventIndex] = {
+            ...selectedEvent,
+            likes: updateLike.toString()
+        };
+
+        return `Added Like to Event With ID: ${id}`
+    }),
+
+    unlikeEvent: update([text], text, (id) => {
+        const eventIndex = events.findIndex(eventItem => eventItem.id === id);
+        const selectedEvent = events[eventIndex];
+        const like = parseInt(selectedEvent.likes);
+        const updateLike = like - 1;
+
+        events[eventIndex] = {
+            ...selectedEvent,
+            likes: updateLike.toString()
+        };
+
+        return `Unliked Event With ID: ${id}`
     })
 });

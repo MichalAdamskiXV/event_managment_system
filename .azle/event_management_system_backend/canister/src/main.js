@@ -100630,6 +100630,30 @@ var src_default = Canister({
     ], Opt2(EventOffer), (id2)=>{
         const selectedEvent = events.find((event)=>event.id === id2);
         return selectedEvent ? Some(selectedEvent) : None;
+    }),
+    likeEvent: update([
+        text
+    ], text, (id2)=>{
+        const eventIndex = events.findIndex((eventItem)=>eventItem.id === id2);
+        const selectedEvent = events[eventIndex];
+        const like = parseInt(selectedEvent.likes);
+        const updateLike = like + 1;
+        events[eventIndex] = _extends({}, selectedEvent, {
+            likes: updateLike.toString()
+        });
+        return `Added Like to Event With ID: ${id2}`;
+    }),
+    unlikeEvent: update([
+        text
+    ], text, (id2)=>{
+        const eventIndex = events.findIndex((eventItem)=>eventItem.id === id2);
+        const selectedEvent = events[eventIndex];
+        const like = parseInt(selectedEvent.likes);
+        const updateLike = like - 1;
+        events[eventIndex] = _extends({}, selectedEvent, {
+            likes: updateLike.toString()
+        });
+        return `Unliked Event With ID: ${id2}`;
     })
 });
 // <stdin>
