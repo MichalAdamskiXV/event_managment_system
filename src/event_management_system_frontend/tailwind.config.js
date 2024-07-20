@@ -22,6 +22,7 @@ module.exports = {
         dark: '#151515',
         light: '#F5F5F5',
         red: '#D60000',
+        gray: '#E3E3E3',
         'aqua-blue': '#00C6CF',
         'form-gray': '#64748B',
         darkOpacity: 'rgba(0, 0, 0, 0.79)',
