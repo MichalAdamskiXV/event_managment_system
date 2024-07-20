@@ -100572,6 +100572,38 @@ var Principal4 = class _Principal {
     }
 };
 // src/event_management_system_backend/src/index.ts
+var TicketNFT = Record2({
+    id: text,
+    eventItemId: text,
+    owner: Principal3,
+    metadata: text
+});
+var tickets = [];
+var generateUniqueId = ()=>{
+    return Math.random().toString(36).substring(2);
+};
+var createTicket = (eventItemId, owner, metadata)=>{
+    const id2 = generateUniqueId();
+    const ticketNFT = {
+        id: id2,
+        eventItemId,
+        owner,
+        metadata
+    };
+    tickets.push(ticketNFT);
+    return ticketNFT;
+};
+var transferTicketNFT = (ticketId, newOwner)=>{
+    const ticket = tickets.find((ticket2)=>ticket2.id === ticketId);
+    if (ticket) {
+        ticket.owner = newOwner;
+        return true;
+    }
+    return false;
+};
+var getTicketsByOwner = (owner)=>{
+    return tickets.filter((ticket)=>ticket.owner === owner);
+};
 var EventOffer = Record2({
     id: text,
     eventName: text,
@@ -100654,6 +100686,30 @@ var src_default = Canister({
             likes: updateLike.toString()
         });
         return `Unliked Event With ID: ${id2}`;
+    }),
+    createTicketNFT: update([
+        text,
+        Principal3,
+        text
+    ], TicketNFT, (eventItemId, owner, metadata)=>{
+        const ticketNFT = createTicket(eventItemId, owner, metadata);
+        return ticketNFT;
+    }),
+    transferTicketNFT: update([
+        text,
+        Principal3
+    ], text, (ticketId, newOwner)=>{
+        const success = transferTicketNFT(ticketId, newOwner);
+        if (success) {
+            return `Ticket with ID ${ticketId} transferred to new owner - ${newOwner}.`;
+        } else {
+            return `Ticket with ID ${ticketId} not found.`;
+        }
+    }),
+    getTicketsByOwner: query([
+        Principal3
+    ], Vec2(TicketNFT), (owner)=>{
+        return getTicketsByOwner(owner);
     })
 });
 // <stdin>

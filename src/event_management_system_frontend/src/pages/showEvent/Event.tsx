@@ -1,7 +1,8 @@
-import { EventProps, selectEventById } from "@/backend";
+import { createTicketNFT, EventProps, getTicketsByOwner, selectEventById } from "@/backend";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { FaHeart } from "react-icons/fa";
+import { buyTicketNFT } from "./ticketNFT";
 
 const Event = () => {
     const { eventId } = useParams();
@@ -19,6 +20,18 @@ const Event = () => {
             }
         } catch (error) {
             console.error(`Failed to fetch event with id: ${eventId}. ERROR - `, error);
+        }
+    }
+
+    const handleBuyTicket = async (eventItemId: string) => {
+        const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
+        try {
+            if (selectedEvent) {
+                const ticket = await buyTicketNFT(selectedEvent);
+                console.log(ticket);
+            }
+        } catch (error) {
+            console.log("Failed to buy ticket. ERROR - ", error)
         }
     }
 
@@ -77,7 +90,7 @@ const Event = () => {
                         </div>
                         <div className="w-[100%] flex justify-center">
                             <div className="w-[70%] pt-12">
-                                <button className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
+                                <button onClick={() => handleBuyTicket(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
                                 <span className="pl-6 font-bold text-light text-3xl">{eventItem.ticketPrice} PLN</span>
                             </div>
                         </div>

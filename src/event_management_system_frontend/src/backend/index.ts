@@ -1,4 +1,6 @@
-import { event_management_system_backend } from '../../../declarations/event_management_system_backend';
+import { HttpAgent, Actor } from '@dfinity/agent';
+import { event_management_system_backend, idlFactory } from '../../../declarations/event_management_system_backend';
+import { Principal } from '@dfinity/principal';
 
 export interface EventProps {
     id: string;
@@ -65,5 +67,48 @@ export const unlikeEvent = async (eventId: string) => {
         return unlikedEvent;
     } catch (error) {
         console.error(`Failed to like event with id: ${eventId}. ERROR `, error)
+    }
+}
+
+const agent = new HttpAgent();
+// const eventActor = Actor.createActor(idlFactory, {
+//     agent,
+//     canisterId: 'aovwi-4maaa-aaaaa-qaagq-cai',
+// });
+
+export const createTicketNFT = async (eventItemId: string, metadata: string = "Ticket Metadata Here") => {
+    try {
+        const principal = await agent.getPrincipal();
+        const createTicket = await event_management_system_backend.createTicketNFT(eventItemId, principal, metadata);
+        return createTicket;
+    } catch (error) {
+        console.error("Failed to create ticket NFT. ERROR - ", error);
+    }
+}
+
+const ownersId: string[] = [];
+
+export const transferTicketNFT = async (ticketId: string) => {
+    try {
+        const newOwner = await agent.getPrincipal();
+        const transefTicket = await event_management_system_backend.transferTicketNFT(ticketId, newOwner);
+        //return owner ID newOwner.toString();
+        ownersId.push(newOwner.toString());
+        return transefTicket;
+    } catch (error) {
+        console.error("Failed to trasfer NTF ticket. ERROR - ", error);
+    }
+}
+
+export const getTicketsByOwner = async () => {
+    try {
+        // const newOwner = await agent.getPrincipal();
+        const ownerPrincipal = Principal.fromText(ownersId[0]); // Jeśli `ownersId[0]` jest stringiem
+
+        // Wywołaj backendową funkcję z obiektem Principal
+        const getTicket = await event_management_system_backend.getTicketsByOwner(ownerPrincipal);
+        return getTicket;
+    } catch (error) {
+        console.error("Failed to get ticket by owner. ERROR - ", error);
     }
 }

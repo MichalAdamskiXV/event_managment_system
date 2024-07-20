@@ -1,7 +1,10 @@
 service: () -> {
     addEventBasicInfo: (record {id:text; localization:text; eventDescription:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; hourFrom:text; ticketPrice:text; eventName:text}) -> (text);
+    createTicketNFT: (text, principal, text) -> (record {id:text; owner:principal; metadata:text; eventItemId:text});
     getEventsOffer: (nat, nat) -> (vec record {id:text; eventDescription:text; likes:text; organizers:text; eventName:text}) query;
+    getTicketsByOwner: (principal) -> (vec record {id:text; owner:principal; metadata:text; eventItemId:text}) query;
     likeEvent: (text) -> (text);
     selectSpecyficEvent: (text) -> (opt record {id:text; localization:text; eventDescription:text; email:text; likes:text; phone:text; hourTo:text; organizers:text; hourFrom:text; ticketPrice:text; eventName:text}) query;
+    transferTicketNFT: (text, principal) -> (text);
     unlikeEvent: (text) -> (text);
 }

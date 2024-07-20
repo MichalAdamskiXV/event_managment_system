@@ -1,4 +1,37 @@
-import { Canister, None, Opt, query, Record, Some, text, update, Vec, nat } from 'azle';
+import { Canister, None, Opt, query, Record, Some, text, update, Vec, nat, Principal } from 'azle';
+
+const TicketNFT = Record({
+    id: text,
+    eventItemId: text,
+    owner: Principal,
+    metadata: text
+});
+
+let tickets: { id: string, eventItemId: string, owner: Principal, metadata: string }[] = [];
+
+const generateUniqueId = (): string => {
+    return Math.random().toString(36).substring(2);
+}
+
+const createTicket = (eventItemId: string, owner: Principal, metadata: string) => {
+    const id = generateUniqueId();
+    const ticketNFT = { id, eventItemId, owner, metadata };
+    tickets.push(ticketNFT);
+    return ticketNFT;
+}
+
+const transferTicketNFT = (ticketId: string, newOwner: Principal) => {
+    const ticket = tickets.find(ticket => ticket.id === ticketId);
+    if (ticket) {
+        ticket.owner = newOwner;
+        return true;
+    }
+    return false;
+}
+
+const getTicketsByOwner = (owner: Principal) => {
+    return tickets.filter(ticket => ticket.owner === owner);
+}
 
 const EventOffer = Record({
     id: text,
@@ -98,5 +131,23 @@ export default Canister({
         };
 
         return `Unliked Event With ID: ${id}`
+    }),
+
+    createTicketNFT: update([text, Principal, text], TicketNFT, (eventItemId, owner, metadata) => {
+        const ticketNFT = createTicket(eventItemId, owner, metadata);
+        return ticketNFT;
+    }),
+
+    transferTicketNFT: update([text, Principal], text, (ticketId, newOwner) => {
+        const success = transferTicketNFT(ticketId, newOwner);
+        if (success) {
+            return `Ticket with ID ${ticketId} transferred to new owner - ${newOwner}.`;
+        } else {
+            return `Ticket with ID ${ticketId} not found.`;
+        }
+    }),
+
+    getTicketsByOwner: query([Principal], Vec(TicketNFT), (owner) => {
+        return getTicketsByOwner(owner);
     })
 });
