@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { FaHeart } from "react-icons/fa";
 import { buyTicketNFT } from "./ticketNFT";
+import { getAccessToken } from "@/services/payPalService";
 
 const Event = () => {
     const { eventId } = useParams();
@@ -23,9 +24,9 @@ const Event = () => {
         }
     }
 
-
     const handleBuyTicket = async (eventItemId: string) => {
         const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
+        // getAccessToken();
         try {
             if (selectedEvent) {
                 const ticket = await buyTicketNFT(selectedEvent);
@@ -35,7 +36,6 @@ const Event = () => {
             console.log("Failed to buy ticket. ERROR - ", error)
         }
     }
-
 
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] pt-12 relative">
