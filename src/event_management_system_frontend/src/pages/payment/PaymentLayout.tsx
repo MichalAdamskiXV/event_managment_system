@@ -2,7 +2,13 @@ import { createPayout, getAccessToken } from "@/services/payPalService";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
 
-const PaymentLayout = ({ amountValue = "1" }: { amountValue: string }) => {
+interface PaymentData {
+    eventId: string,
+    price: string,
+    email: string
+}
+
+const PaymentLayout = ({ eventId, price, email }: PaymentData) => {
 
     const [transactionId, setTransactionId] = useState(null);
     const handleApprove = async (data: any, actions: any) => {
@@ -23,10 +29,10 @@ const PaymentLayout = ({ amountValue = "1" }: { amountValue: string }) => {
                             {
                                 recipient_type: "EMAIL",
                                 amount: {
-                                    value: amountValue,
+                                    value: price,
                                     currency: "USD"
                                 },
-                                receiver: "madamskixv@gmail.com", // Zastąp prawidłowym emailem odbiorcy
+                                receiver: email, // Zastąp prawidłowym emailem odbiorcy
                                 note: "Thanks for your patronage!",
                                 sender_item_id: `item_${new Date().getTime()}`
                             }
@@ -54,7 +60,7 @@ const PaymentLayout = ({ amountValue = "1" }: { amountValue: string }) => {
                                 purchase_units: [{
                                     amount: {
                                         currency_code: "USD",
-                                        value: amountValue
+                                        value: price
                                     }
                                 }]
                             });

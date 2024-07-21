@@ -6,7 +6,6 @@ import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
 import './index.css';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import PaymentLayout from "./pages/payment/PaymentLayout";
 
 import {
   createBrowserRouter,
@@ -31,9 +30,6 @@ const router = createBrowserRouter([
         element: <Event />
       }
     ]
-  }, {
-    path: '/payment',
-    element: <PaymentLayout amountValue='1'/>
   }
 ])
 

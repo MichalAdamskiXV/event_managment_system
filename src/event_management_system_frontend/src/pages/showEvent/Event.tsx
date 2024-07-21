@@ -4,10 +4,18 @@ import { Link, useParams } from "react-router-dom"
 import { FaHeart } from "react-icons/fa";
 import { buyTicketNFT } from "./ticketNFT";
 import { getAccessToken } from "@/services/payPalService";
+import PaymentLayout from "../payment/PaymentLayout";
 
 const Event = () => {
     const { eventId } = useParams();
     const [events, setEvents] = useState<EventProps[]>();
+
+    const [payment, setPayment] = useState(false);
+    const [paymentData, setPaymentData] = useState({
+        eventId: "",
+        price: "",
+        email: ""
+    });
 
     useEffect(() => {
         fetchSpecyficEvent();
@@ -37,8 +45,25 @@ const Event = () => {
         }
     }
 
+    const hanlePaymentWindow = (eventItemId: string) => {
+        const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
+
+        if (selectedEvent) {
+            const paymentData = {
+                eventId: selectedEvent.id,
+                price: selectedEvent.ticketPrice,
+                email: selectedEvent.email
+            }
+            setPaymentData(paymentData);
+            setPayment(true);
+        }
+    }
+
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] pt-12 relative">
+            {
+                payment && <PaymentLayout email={paymentData.email} eventId={paymentData.eventId} price={paymentData.price} />
+            }
             {
                 events?.map((eventItem) => (
                     <div key={eventItem.id}>
@@ -92,9 +117,9 @@ const Event = () => {
                         </div>
                         <div className="w-[100%] flex justify-center">
                             <div className="w-[70%] pt-12">
-                                <Link to={`/payment`}>
-                                    <button onClick={() => handleBuyTicket(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
-                                </Link>
+                                {/* <button onClick={() => handleBuyTicket(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button> */}
+                                <button onClick={() => hanlePaymentWindow(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
+
                                 <span className="pl-6 font-bold text-light text-3xl">{eventItem.ticketPrice} PLN</span>
                             </div>
                         </div>
