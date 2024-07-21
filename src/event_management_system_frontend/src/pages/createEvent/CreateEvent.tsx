@@ -66,7 +66,7 @@ const CreateEvent = () => {
                         <div className="w-[600px]">
                             {
                                 formFields.map((formField) => (
-                                    <div className={`${formField.type === "TIME" && 'flex justify-between'} p-2`}>
+                                    <div key={formField.formName} className={`${formField.type === "TIME" && 'flex justify-between'} p-2`}>
                                         <FormField
                                             key={formField.formName}
                                             control={form.control}
@@ -108,7 +108,7 @@ const CreateEvent = () => {
                             <div className="w-[600px]">
                                 {
                                     contactFields.map((formField) => (
-                                        <div className="pt-5">
+                                        <div className="pt-5" key={formField.formName}>
                                             <FormField
                                                 key={formField.formName}
                                                 control={form.control}
