@@ -1,16 +1,23 @@
 import { createPayout, getAccessToken } from "@/services/payPalService";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface PaymentData {
-    eventId: string,
-    price: string,
-    email: string
-}
+// interface PaymentData {
+//     eventId: string,
+//     price: string,
+//     email: string
+// }
 
-const PaymentLayout = ({ eventId, price, email }: PaymentData) => {
+// { eventId, price, email }: PaymentData
 
+const PaymentLayout = () => {
+
+    const navigate = useNavigate();
+    const { paymentEventId, paymentEmail, price } = useParams();
     const [transactionId, setTransactionId] = useState(null);
+
+
     const handleApprove = async (data: any, actions: any) => {
         if (actions.order) {
             return actions.order.capture().then(async (details: any) => {
@@ -32,14 +39,17 @@ const PaymentLayout = ({ eventId, price, email }: PaymentData) => {
                                     value: price,
                                     currency: "USD"
                                 },
-                                receiver: email, // Zastąp prawidłowym emailem odbiorcy
+                                receiver: paymentEmail, // Zastąp prawidłowym emailem odbiorcy
                                 note: "Thanks for your patronage!",
                                 sender_item_id: `item_${new Date().getTime()}`
                             }
                         ]
                     }
                     const payoutResult = await createPayout(accessToket, payoutData);
-                    console.log('Payout created successfully: ', payoutResult);
+                    if (payoutResult) {
+                        console.log('Payout created successfully: ', payoutResult);
+                        navigate(`/finalizingOrder/${paymentEventId}`);
+                    }
                 } else {
                     console.log("Transaction completed, but payer details are missing.");
                 }
@@ -54,7 +64,7 @@ const PaymentLayout = ({ eventId, price, email }: PaymentData) => {
                 <PayPalButtons
                     className="w-[500px]"
                     createOrder={(data, actions) => {
-                        if (actions.order) {
+                        if (actions.order && price) {
                             return actions.order.create({
                                 intent: "CAPTURE",
                                 purchase_units: [{

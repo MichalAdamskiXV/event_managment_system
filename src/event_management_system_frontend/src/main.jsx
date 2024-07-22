@@ -6,11 +6,13 @@ import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
 import './index.css';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import FinalOrder from "./pages/finalizingOrder/FinalOrder"
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import PaymentLayout from './pages/payment/PaymentLayout';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
         element: <Event />
       }
     ]
+  },
+  {
+    path: '/payment/:paymentEventId/:paymentEmail/:price',
+    element: <PaymentLayout />
+  },
+  {
+    path: '/finalizingOrder/:finalEventId',
+    element: <FinalOrder />
   }
 ])
 

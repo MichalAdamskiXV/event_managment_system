@@ -32,19 +32,6 @@ const Event = () => {
         }
     }
 
-    const handleBuyTicket = async (eventItemId: string) => {
-        const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
-        // getAccessToken();
-        try {
-            if (selectedEvent) {
-                const ticket = await buyTicketNFT(selectedEvent);
-                console.log(ticket);
-            }
-        } catch (error) {
-            console.log("Failed to buy ticket. ERROR - ", error)
-        }
-    }
-
     const hanlePaymentWindow = (eventItemId: string) => {
         const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
 
@@ -61,9 +48,6 @@ const Event = () => {
 
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] pt-12 relative">
-            {
-                payment && <PaymentLayout email={paymentData.email} eventId={paymentData.eventId} price={paymentData.price} />
-            }
             {
                 events?.map((eventItem) => (
                     <div key={eventItem.id}>
@@ -117,10 +101,10 @@ const Event = () => {
                         </div>
                         <div className="w-[100%] flex justify-center">
                             <div className="w-[70%] pt-12">
-                                {/* <button onClick={() => handleBuyTicket(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button> */}
-                                <button onClick={() => hanlePaymentWindow(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
-
-                                <span className="pl-6 font-bold text-light text-3xl">{eventItem.ticketPrice} PLN</span>
+                                <Link to={`/payment/${eventItem.id}/${eventItem.email}/${eventItem.ticketPrice}`}>
+                                    <button onClick={() => hanlePaymentWindow(eventItem.id)} className="font-bold text-xl text-body p-3 w-[250px] bg-aqua-blue rounded-[8px] border-solid border-aqua-blue border-[2px] hover:bg-body hover:text-aqua-blue">BUY TICKET</button>
+                                </Link>
+                                <span className="pl-6 font-bold text-light text-3xl">{eventItem.ticketPrice} USD</span>
                             </div>
                         </div>
                     </div>
