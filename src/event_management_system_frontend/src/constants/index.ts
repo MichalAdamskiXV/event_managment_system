@@ -1,4 +1,4 @@
-import { eventSchema } from "@/pages/createEvent/formSchema";
+import { eventSchema, finalOrderSchema } from "@/pages/createEvent/formSchema";
 import { z } from "zod"
 
 export const formFields: { formName: keyof z.infer<typeof eventSchema>, formLabel: string, formDescription: string, placeholder: string, type?: string }[] = [
@@ -13,4 +13,11 @@ export const formFields: { formName: keyof z.infer<typeof eventSchema>, formLabe
 export const contactFields: { formName: keyof z.infer<typeof eventSchema>, formLabel: string, formDescription: string, placeholder: string }[] = [
     { formName: "phone", formLabel: "Phone Number", formDescription: "Enter Phone Number To Contact.", placeholder: "Phone Number" },
     { formName: "email", formLabel: "Email Address", formDescription: "Enter Email Address To Contact.", placeholder: "Email Address" },
+]
+
+export const emailFields: { formName: keyof z.infer<typeof finalOrderSchema>, formLabel: string, formDescription: string, placeholder: string }[] = [
+    { formName: "userName", formLabel: "Name", formDescription: "Enter Name", placeholder: "Name" },
+    { formName: "userLastname", formLabel: "Lastname", formDescription: "Enter Lastname", placeholder: "Lastname" },
+    { formName: "email", formLabel: "Email", formDescription: "Enter Email", placeholder: "Email" },
+    { formName: "repeatEmail", formLabel: "Repeat Email", formDescription: "Repeat Email", placeholder: "Repeat Email" }
 ]

@@ -13,6 +13,8 @@ export const eventSchema = z.object({
 })
 
 export const finalOrderSchema = z.object({
+    userName: z.string().min(2),
+    userLastname: z.string().min(2),
     email: z.string().email({ message: "Email Address Is Invalid." }).max(50, { message: "The field can only contain 50 characters" }),
     repeatEmail: z.string().email({ message: "Email Address Is Invalid." }).max(50, { message: "The field can only contain 50 characters" })
 }).refine(data => data.email === data.repeatEmail, {

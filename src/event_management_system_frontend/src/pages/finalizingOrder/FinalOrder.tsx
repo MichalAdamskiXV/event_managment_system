@@ -1,6 +1,6 @@
 import { EventProps, selectEventById } from "@/backend";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { buyTicketNFT } from "../showEvent/ticketNFT";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,17 +9,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { emailFields } from "@/constants";
+import { generatePdf } from ".";
+import { Principal } from "@dfinity/principal";
+
+export interface TicketData {
+    id: string;
+    owner: Principal;
+    metadata: string;
+    eventItemId: string;
+}
+
+export interface UserData {
+    userName: string;
+    userLastname: string;
+    repeatEmail: string;
+}
 
 const FinalOrder = () => {
 
     const { finalEventId } = useParams();
+    const navigate = useNavigate();
     const [events, setEvents] = useState<EventProps[]>();
-
-    const emailFields: { formName: keyof z.infer<typeof finalOrderSchema>, formLabel: string, formDescription: string, placeholder: string }[] = [
-        { formName: "email", formLabel: "Email", formDescription: "Enter Email", placeholder: "Email" },
-        { formName: "repeatEmail", formLabel: "Repeat Email", formDescription: "Repeat Email", placeholder: "Repeat Email" }
-    ]
-
 
     useEffect(() => {
         fetchSpecyficEvent();
@@ -28,15 +39,38 @@ const FinalOrder = () => {
     const form = useForm<z.infer<typeof finalOrderSchema>>({
         resolver: zodResolver(finalOrderSchema),
         defaultValues: {
+            userLastname: "",
+            userName: "",
             email: "",
             repeatEmail: ""
         }
     })
 
-    const onSubmit = (values: z.infer<typeof finalOrderSchema>) => {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof finalOrderSchema>) => {
+        if (finalEventId) {
+            const selectedEvent = events?.find(eventItem => eventItem.id === finalEventId);
+            try {
+                if (selectedEvent) {
+                    const ticket = await buyTicketNFT(selectedEvent);
 
-        finalEventId && handleFinalOrder(finalEventId);
+                    const userData: UserData = {
+                        userName: values.userName,
+                        userLastname: values.userLastname,
+                        repeatEmail: values.repeatEmail
+                    }
+
+                    if (ticket && userData) {
+                        await generatePdf(ticket, userData);
+
+                        setTimeout(() => {
+                            navigate('/')
+                        }, 2000);
+                    }
+                }
+            } catch (error) {
+                console.error("Failedd to buy ticket. ERROR - ", error);
+            }
+        }
     }
 
     const fetchSpecyficEvent = async () => {
@@ -50,17 +84,6 @@ const FinalOrder = () => {
         }
     }
 
-    const handleFinalOrder = async (eventItemId: string) => {
-        const selectedEvent = events?.find(eventItem => eventItem.id === eventItemId);
-        try {
-            if (selectedEvent) {
-                const ticket = await buyTicketNFT(selectedEvent);
-                console.log(ticket);
-            }
-        } catch (error) {
-            console.log("Failed to buy ticket. ERROR - ", error)
-        }
-    }
 
     return (
         <div className="w-[100%] h-[100%] flex items-center justify-center">
@@ -97,9 +120,6 @@ const FinalOrder = () => {
                             </div>
                         </form>
                     </Form>
-                </div>
-                <div>
-                    {/* <button onClick={() => { finalEventId && handleFinalOrder(finalEventId) }} className="hover:bg-body hover:text-aqua-blue border-solid border-[2px] border-aqua-blue text-body w-[300px] p-2 bg-aqua-blue rounded-[8px] font-bold text-xl">Send Ticket</button> */}
                 </div>
             </div>
         </div>

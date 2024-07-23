@@ -5,6 +5,10 @@
     "type": "module",
     "dependencies": {
         "@paypal/checkout-server-sdk": "^1.0.3",
-        "azle": "^0.19.0"
+        "azle": "^0.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.19.2",
+        "mailgun-js": "^0.6.7",
+        "nodemailer": "^6.9.14"
     }
 }

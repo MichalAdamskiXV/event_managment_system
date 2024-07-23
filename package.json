@@ -15,5 +15,8 @@
   "workspaces": [
     "src/event_management_system_backend",
     "src/event_management_system_frontend"
-  ]
+  ],
+  "dependencies": {
+    "react-router-dom": "^6.25.1"
+  }
 }
