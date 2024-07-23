@@ -4,7 +4,7 @@ import { EventSummary, fetchEvents } from "../../backend";
 import { useEffect, useState } from "react";
 import { addToFavorities, getFavoritedEvents, unlikeEventBackend, likeBackendLikes } from "./localStorage";
 import DotsLoader from "@/components/DotsLoader";
-import { string } from "zod";
+import Loader from "@/components/Loader";
 
 const Home = () => {
     const [events, setEvents] = useState<EventSummary[]>();
@@ -82,9 +82,9 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="p-6 w-[100%] bg-body h-[100%] flex flex-wrap gap-6 justify-center">
+        <div className="p-6 w-[100%] bg-body h-[100%] flex flex-wrap gap-6 justify-center relative">
             {loading ? (
-                <div>Loading...</div>
+                <Loader message="Loading Events List" />
             ) : (
                 events?.map((eventItem) => {
                     const isLiked = currentLikes.some(likeItem => likeItem.eventId === eventItem.id);
@@ -94,7 +94,7 @@ const Home = () => {
                                 <div className="pl-1 pr-1">
                                     <h3 className="font-extrabold text-aqua-blue text-2xl">{eventItem.eventName}</h3>
                                     <p className="font-bold text-form-gray text-xl pt-1">{eventItem.organizers}</p>
-                                    <p className="text-lg text-light pt-3 text-justify">
+                                    <p className="text-lg text-light pt-3 text-justify w-[100%] overflow-hidden">
                                         {eventItem.eventDescription.length > 300 ? eventItem.eventDescription.slice(0, 300) + " ..." : eventItem.eventDescription}
                                     </p>
                                     <span className="flex items-center gap-3 text-xl text-light">

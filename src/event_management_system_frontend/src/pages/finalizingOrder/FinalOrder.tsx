@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { emailFields } from "@/constants";
 import { generatePdf } from ".";
 import { Principal } from "@dfinity/principal";
+import Loader from "@/components/Loader";
 
 export interface TicketData {
     id: string;
@@ -31,10 +32,22 @@ const FinalOrder = () => {
     const { finalEventId } = useParams();
     const navigate = useNavigate();
     const [events, setEvents] = useState<EventProps[]>();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchSpecyficEvent();
-    }, [])
+    }, []);
+
+    const fetchSpecyficEvent = async () => {
+        try {
+            if (finalEventId) {
+                const event = await selectEventById(finalEventId);
+                setEvents(event);
+            }
+        } catch (error) {
+            console.error(`Failed to fetch event with id: ${finalEventId}. ERROR - `, error);
+        }
+    }
 
     const form = useForm<z.infer<typeof finalOrderSchema>>({
         resolver: zodResolver(finalOrderSchema),
@@ -48,6 +61,7 @@ const FinalOrder = () => {
 
     const onSubmit = async (values: z.infer<typeof finalOrderSchema>) => {
         if (finalEventId) {
+            setLoading(true);
             const selectedEvent = events?.find(eventItem => eventItem.id === finalEventId);
             try {
                 if (selectedEvent) {
@@ -62,6 +76,8 @@ const FinalOrder = () => {
                     if (ticket && userData) {
                         await generatePdf(ticket, userData);
 
+                        setLoading(false);
+
                         setTimeout(() => {
                             navigate('/')
                         }, 2000);
@@ -73,20 +89,11 @@ const FinalOrder = () => {
         }
     }
 
-    const fetchSpecyficEvent = async () => {
-        try {
-            if (finalEventId) {
-                const event = await selectEventById(finalEventId);
-                setEvents(event);
-            }
-        } catch (error) {
-            console.error(`Failed to fetch event with id: ${finalEventId}. ERROR - `, error);
-        }
-    }
-
-
     return (
-        <div className="w-[100%] h-[100%] flex items-center justify-center">
+        <div className="w-[100%] h-[100%] flex items-center justify-center relative">
+            {
+                loading && <Loader message="Finalizing Order And Creating PDF" />
+            }
             <div className="w-[70%] text-center p-6">
                 <h1 className="text-aqua-blue font-bold text-2xl">Finalizing Order</h1>
                 <div className="w-[100%] p-6">

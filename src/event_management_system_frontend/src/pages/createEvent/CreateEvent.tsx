@@ -34,7 +34,10 @@ const CreateEvent = () => {
             hourFrom: "",
             hourTo: "",
             localization: "",
-            eventDescription: ""
+            eventDescription: "",
+            ticketPrice: "",
+            phone: "",
+            email: ""
         },
     });
 
@@ -59,7 +62,7 @@ const CreateEvent = () => {
 
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] flex gap-6 pt-12 relative">
-            {addingEvent && <Loader />}
+            {addingEvent && <Loader message="Adding Event Offer" />}
             <div className="w-[100%] flex justify-center">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-6 flex-wrap justify-center">
