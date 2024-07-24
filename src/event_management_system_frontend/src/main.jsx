@@ -8,6 +8,7 @@ import './index.css';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import FinalOrder from "./pages/finalizingOrder/FinalOrder";
 import HotEvents from "./pages/hotEvents/HotEvents";
+import SearchPage from "./pages/search/SearchPage"
 
 import {
   createBrowserRouter,
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: '/hotEvents',
         element: <HotEvents />
+      },
+      {
+        path: '/search',
+        element: <SearchPage />
       }
     ]
   },
