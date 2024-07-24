@@ -1,4 +1,4 @@
-import { EventSummary } from "@/backend"
+import { EventSummary, getHotEvents } from "@/backend"
 import EventsCards from "@/components/EventsCards"
 import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
@@ -8,21 +8,21 @@ const HotEvents = () => {
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, [page]);
+    useEffect(() => {
+        fetchData();
+    }, [page]);
 
-    // const fetchData = async () => {
-    //     setLoading(true);
-    //     try {
-    //         // const fetchEventsList = await fetchEvents(page, 50); // Fetch 50 events per page
-    //         setEvents(fetchEventsList);
-    //     } catch (error) {
-    //         console.error("Failed to fetch", error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const fetchEventsList = await getHotEvents();
+            setEvents(fetchEventsList);
+        } catch (error) {
+            console.error("Failed to fetch", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleNextPage = () => setPage(page + 1);
     const handlePrevPage = () => setPage(page - 1);

@@ -100710,6 +100710,16 @@ var src_default = Canister({
         Principal3
     ], Vec2(TicketNFT), (owner)=>{
         return getTicketsByOwner(owner);
+    }),
+    getHotEvents: query([], Vec2(EventSummary), ()=>{
+        const sortedEvents = events.sort((a, b)=>parseInt(b.likes) - parseInt(a.likes)).slice(0, 30).map((event)=>({
+                id: event.id,
+                eventName: event.eventName,
+                organizers: event.organizers,
+                likes: event.likes,
+                eventDescription: event.eventDescription
+            }));
+        return sortedEvents;
     })
 });
 // <stdin>

@@ -71,10 +71,6 @@ export const unlikeEvent = async (eventId: string) => {
 }
 
 const agent = new HttpAgent();
-// const eventActor = Actor.createActor(idlFactory, {
-//     agent,
-//     canisterId: 'aovwi-4maaa-aaaaa-qaagq-cai',
-// });
 
 export const createTicketNFT = async (eventItemId: string, metadata: string = "Ticket Metadata Here") => {
     try {
@@ -92,7 +88,6 @@ export const transferTicketNFT = async (ticketId: string) => {
     try {
         const newOwner = await agent.getPrincipal();
         const transefTicket = await event_management_system_backend.transferTicketNFT(ticketId, newOwner);
-        //return owner ID newOwner.toString();
         ownersId.push(newOwner.toString());
         return transefTicket;
     } catch (error) {
@@ -102,13 +97,19 @@ export const transferTicketNFT = async (ticketId: string) => {
 
 export const getTicketsByOwner = async () => {
     try {
-        // const newOwner = await agent.getPrincipal();
-        const ownerPrincipal = Principal.fromText(ownersId[0]); // Jeśli `ownersId[0]` jest stringiem
-
-        // Wywołaj backendową funkcję z obiektem Principal
+        const ownerPrincipal = Principal.fromText(ownersId[0]);
         const getTicket = await event_management_system_backend.getTicketsByOwner(ownerPrincipal);
         return getTicket;
     } catch (error) {
         console.error("Failed to get ticket by owner. ERROR - ", error);
+    }
+}
+
+export const getHotEvents = async () => {
+    try {
+        const hotEvents = await event_management_system_backend.getHotEvents();
+        return hotEvents;
+    } catch (error) {
+        console.error("Failed to fetch hot events. ERROR - ", error);
     }
 }
