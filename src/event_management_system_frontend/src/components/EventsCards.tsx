@@ -1,10 +1,10 @@
-import { EventSummary } from "@/backend"
-import Loader from "./Loader"
-import { FaHeart } from "react-icons/fa"
-import { Link } from "react-router-dom"
-import DotsLoader from "./DotsLoader"
-import { useEffect, useState } from "react"
-import { addToFavorities, getFavoritedEvents, likeBackendLikes, unlikeEventBackend } from "@/pages/homePage/localStorage"
+import { EventSummary } from "@/backend";
+import Loader from "./Loader";
+import { FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import DotsLoader from "./DotsLoader";
+import { useEffect, useState } from "react";
+import { addToFavorities, getFavoritedEvents, likeBackendLikes, unlikeEventBackend } from "@/pages/homePage/localStorage";
 
 interface EventsCardsProps {
     eventsItems: EventSummary[] | undefined;
@@ -53,6 +53,10 @@ const EventsCards = ({ eventsItems, isLoading }: EventsCardsProps) => {
 
     if (isLoading) {
         return <Loader message="Loading Hot Events ..." />;
+    }
+
+    if (eventsItems?.length === 0) {
+        return <div className="p-6 w-[100%] bg-body h-[100%] flex flex-wrap gap-6 justify-center relative"><p className="text-2xl font-extrabold text-light">No events found.</p></div>;
     }
 
     return (
