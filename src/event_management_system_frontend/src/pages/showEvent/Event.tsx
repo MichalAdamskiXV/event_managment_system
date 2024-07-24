@@ -47,7 +47,7 @@ const Event = () => {
     }
 
     return (
-        <div className="p-6 w-[100vw] bg-body h-[100vh] pt-12 relative">
+        <div className="p-6 w-[100vw] bg-body h-[100%] pt-12 relative">
             {
                 events?.map((eventItem) => (
                     <div key={eventItem.id}>

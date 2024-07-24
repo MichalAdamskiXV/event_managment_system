@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom"
-import { FaHome, FaHotjar, FaSearch, FaHeart } from "react-icons/fa";
+import { FaHome, FaHotjar, FaSearch } from "react-icons/fa";
 
 const NavBar = () => {
 
@@ -7,7 +7,6 @@ const NavBar = () => {
         { id: 1, title: 'Home', path: '/', icon: <FaHome /> },
         { id: 2, title: 'Search', path: '/search', icon: <FaSearch /> },
         { id: 3, title: 'Hot Events', path: '/hotEvents', icon: <FaHotjar /> },
-        { id: 4, title: "Favorited Events", path: '/favoritedEvents', icon: <FaHeart /> },
     ];
 
     return (

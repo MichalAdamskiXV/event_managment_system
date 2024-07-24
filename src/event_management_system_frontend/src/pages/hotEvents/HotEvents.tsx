@@ -1,36 +1,31 @@
-import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
-import { EventSummary, fetchEvents } from "../../backend";
-import { useEffect, useState } from "react";
-import { addToFavorities, getFavoritedEvents, unlikeEventBackend, likeBackendLikes } from "./localStorage";
-import DotsLoader from "@/components/DotsLoader";
+import { EventSummary } from "@/backend"
+import EventsCards from "@/components/EventsCards"
 import Loader from "@/components/Loader";
-import EventsCards from "@/components/EventsCards";
+import { useEffect, useState } from "react";
 
-const Home = () => {
+const HotEvents = () => {
     const [events, setEvents] = useState<EventSummary[]>();
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        fetchData();
-    }, [page]);
+    // useEffect(() => {
+    //     fetchData();
+    // }, [page]);
 
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const fetchEventsList = await fetchEvents(page, 50); // Fetch 50 events per page
-            setEvents(fetchEventsList);
-        } catch (error) {
-            console.error("Failed to fetch", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     try {
+    //         // const fetchEventsList = await fetchEvents(page, 50); // Fetch 50 events per page
+    //         setEvents(fetchEventsList);
+    //     } catch (error) {
+    //         console.error("Failed to fetch", error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const handleNextPage = () => setPage(page + 1);
     const handlePrevPage = () => setPage(page - 1);
-
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] flex flex-wrap gap-6 justify-center relative">
             {loading ? (
@@ -49,7 +44,7 @@ const Home = () => {
                 )}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Home;
+export default HotEvents

@@ -6,7 +6,8 @@ import Event from "./pages/showEvent/Event"
 import CreateEvent from "./pages/createEvent/CreateEvent"
 import './index.css';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import FinalOrder from "./pages/finalizingOrder/FinalOrder"
+import FinalOrder from "./pages/finalizingOrder/FinalOrder";
+import HotEvents from "./pages/hotEvents/HotEvents";
 
 import {
   createBrowserRouter,
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/event/:eventId',
         element: <Event />
+      }, 
+      {
+        path: '/hotEvents',
+        element: <HotEvents />
       }
     ]
   },
