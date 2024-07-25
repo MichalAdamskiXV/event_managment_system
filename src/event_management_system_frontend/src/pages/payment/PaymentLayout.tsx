@@ -3,20 +3,10 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-// interface PaymentData {
-//     eventId: string,
-//     price: string,
-//     email: string
-// }
-
-// { eventId, price, email }: PaymentData
-
 const PaymentLayout = () => {
-
     const navigate = useNavigate();
     const { paymentEventId, paymentEmail, price } = useParams();
-    const [transactionId, setTransactionId] = useState(null);
-
+    const [transactionId, setTransactionId] = useState<string | null>(null);
 
     const handleApprove = async (data: any, actions: any) => {
         if (actions.order) {
@@ -25,30 +15,34 @@ const PaymentLayout = () => {
                     setTransactionId(details.id);
                     console.log("Transaction completed by " + details.payer.name.given_name);
 
-                    const accessToket = await getAccessToken();
-                    const payoutData = {
-                        sender_batch_header: {
-                            sender_batch_id: `batch_${new Date().getTime()}`,
-                            email_subject: "You have a payout!",
-                            email_message: "You have received a payout! Thanks for using our service!"
-                        },
-                        items: [
-                            {
-                                recipient_type: "EMAIL",
-                                amount: {
-                                    value: price,
-                                    currency: "USD"
-                                },
-                                receiver: paymentEmail, // Zastąp prawidłowym emailem odbiorcy
-                                note: "Thanks for your patronage!",
-                                sender_item_id: `item_${new Date().getTime()}`
-                            }
-                        ]
-                    }
-                    const payoutResult = await createPayout(accessToket, payoutData);
-                    if (payoutResult) {
-                        console.log('Payout created successfully: ', payoutResult);
-                        navigate(`/finalizingOrder/${paymentEventId}`);
+                    try {
+                        const accessToken = await getAccessToken();
+                        const payoutData = {
+                            sender_batch_header: {
+                                sender_batch_id: `batch_${new Date().getTime()}`,
+                                email_subject: "You have a payout!",
+                                email_message: "You have received a payout! Thanks for using our service!"
+                            },
+                            items: [
+                                {
+                                    recipient_type: "EMAIL",
+                                    amount: {
+                                        value: parseFloat(price || '0').toFixed(2), // Ensure value is a number with two decimal places
+                                        currency: "USD"
+                                    },
+                                    receiver: paymentEmail || '', // Ensure receiver email is provided
+                                    note: "Thanks for your patronage!",
+                                    sender_item_id: `item_${new Date().getTime()}`
+                                }
+                            ]
+                        }
+                        const payoutResult = await createPayout(accessToken, payoutData);
+                        if (payoutResult) {
+                            console.log('Payout created successfully: ', payoutResult);
+                            navigate(`/finalizingOrder/${paymentEventId}`);
+                        }
+                    } catch (error) {
+                        console.error('Error creating payout:', error);
                     }
                 } else {
                     console.log("Transaction completed, but payer details are missing.");
@@ -65,12 +59,14 @@ const PaymentLayout = () => {
                     className="w-[500px]"
                     createOrder={(data, actions) => {
                         if (actions.order && price) {
+                            // Ensure price is formatted correctly
+                            const formattedPrice = parseFloat(price).toFixed(2);
                             return actions.order.create({
                                 intent: "CAPTURE",
                                 purchase_units: [{
                                     amount: {
                                         currency_code: "USD",
-                                        value: price
+                                        value: formattedPrice
                                     }
                                 }]
                             });
@@ -87,4 +83,4 @@ const PaymentLayout = () => {
     )
 }
 
-export default PaymentLayout
+export default PaymentLayout;
