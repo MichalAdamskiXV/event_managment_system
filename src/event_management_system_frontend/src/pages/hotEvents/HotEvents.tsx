@@ -1,7 +1,8 @@
-import { EventSummary, getHotEvents } from "@/backend"
-import EventsCards from "@/components/EventsCards"
+import { EventSummary, getHotEvents } from "@/backend";
+import EventsCards from "@/components/EventsCards";
 import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
+
 
 const HotEvents = () => {
     const [events, setEvents] = useState<EventSummary[]>();
@@ -26,12 +27,16 @@ const HotEvents = () => {
 
     const handleNextPage = () => setPage(page + 1);
     const handlePrevPage = () => setPage(page - 1);
+
     return (
         <div className="p-6 w-[100%] bg-body h-[100%] flex flex-wrap gap-6 justify-center relative">
             {loading ? (
                 <Loader message="Loading Events List" />
             ) : (
-                <EventsCards eventsItems={events} isLoading={loading} />
+                <EventsCards
+                    eventsItems={events}
+                    isLoading={loading}
+                />
             )}
             <div className="w-full flex justify-between mt-4">
                 <button onClick={handlePrevPage} disabled={page === 0} className="btn">
@@ -44,7 +49,7 @@ const HotEvents = () => {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default HotEvents
+export default HotEvents;

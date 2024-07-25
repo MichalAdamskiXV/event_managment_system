@@ -59,7 +59,10 @@ const SearchPage = () => {
             {loading ? (
                 <Loader message="Loading Events List" />
             ) : (
-                <EventsCards eventsItems={events} isLoading={loading} />
+                <EventsCards
+                    eventsItems={events}
+                    isLoading={loading}
+                />
             )}
             <div className="w-full flex justify-between mt-4">
                 <button onClick={handlePrevPage} disabled={page === 0} className="btn">

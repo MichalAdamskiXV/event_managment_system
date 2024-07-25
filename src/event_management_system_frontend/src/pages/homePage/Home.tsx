@@ -1,9 +1,5 @@
-import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
 import { EventSummary, fetchEvents } from "../../backend";
 import { useEffect, useState } from "react";
-import { addToFavorities, getFavoritedEvents, unlikeEventBackend, likeBackendLikes } from "./localStorage";
-import DotsLoader from "@/components/DotsLoader";
 import Loader from "@/components/Loader";
 import EventsCards from "@/components/EventsCards";
 

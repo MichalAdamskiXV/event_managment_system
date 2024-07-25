@@ -163,5 +163,10 @@ export default Canister({
                 eventDescription: event.eventDescription,
             }));
         return sortedEvents;
+    }),
+
+    delateEvents: update([], text, () => {
+        events.length = 0;
+        return "Delate"
     })
 });

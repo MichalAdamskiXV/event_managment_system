@@ -1,15 +1,17 @@
 import { likeEvent, unlikeEvent } from "@/backend";
 
-export const addToFavorities = (currentLikes: { eventId: string }[], eventsId: string[]) => {
-    eventsId.forEach((eventId) => {
-        const alreadyLiked = currentLikes.some(like => like.eventId === eventId);
+export const updateFavorities = (currentLikes: { eventId: string }[]) => {
+    const favoritedEvents = getFavoritedEvents();
 
-        if (alreadyLiked) {
+    currentLikes.forEach(({ eventId }) => {
+        if (!favoritedEvents.includes(eventId)) {
             localStorage.setItem(eventId, "LIKED");
-            //likeBackendLikes(eventId);
-        } else {
+        }
+    });
+
+    favoritedEvents.forEach(eventId => {
+        if (!currentLikes.some(like => like.eventId === eventId)) {
             localStorage.removeItem(eventId);
-            //unlikeEventBackend(eventId);
         }
     });
 };
@@ -27,18 +29,18 @@ export const getFavoritedEvents = (): string[] => {
 
 export const likeBackendLikes = async (eventId: string) => {
     try {
-        const updateLikes = await likeEvent(eventId);
-        return updateLikes;
+        return await likeEvent(eventId);
     } catch (error) {
-        console.error(`Failed to like event. ERROR `, error)
+        console.error("Failed to like event. ERROR ", error);
+        throw error;
     }
-}
+};
 
 export const unlikeEventBackend = async (eventId: string) => {
     try {
-        const updateLikes = await unlikeEvent(eventId);
-        console.log(updateLikes);
+        return await unlikeEvent(eventId);
     } catch (error) {
-        console.error(`Failed to unlike event. ERROR `, error)
+        console.error("Failed to unlike event. ERROR ", error);
+        throw error;
     }
-}
+};
