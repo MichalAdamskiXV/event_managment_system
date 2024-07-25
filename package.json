@@ -5,6 +5,8 @@
   },
   "name": "event_management_system",
   "scripts": {
+    "prebuild": "npm install -g dfx",
+    "build": "dfx build"
     "build": "npm run build --workspaces --if-present",
     "prebuild": "npm run prebuild --workspaces --if-present",
     "pretest": "npm run prebuild --workspaces --if-present",
