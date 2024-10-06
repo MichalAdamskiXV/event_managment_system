@@ -1,16 +1,5 @@
 # `event_management_system`
 
-## Event Management System
-Projekt jest stworzony w React i TypeScript. Event Management System to platforma, na której użytkownicy mogą dodawać różne eventy. Wydarzenie dodajemy za pomocą przycisku Create Event - dane z formularza wysyłane są do backendu. Nowe wydarzenie dodawane jest do strony głównej (Home) - tu można je przeszukiwać, dodawać do ulubionych (w trakcie pracy), wejść w ich specyfikacje. Tu użytkownik może kupić bilet na taki event. W backendzie tworzony jest bilet ze swoim unikalnym ID oraz przypisaniem do użytkownika. Przycisk BuyTicket przekierowuje nas do strony, na której można wybrać rodzaj płatności (obsługa płatności nie jest w pełni funkcjonalna, planuję dalej nad nią pracować). Do testu najlepiej jest wybrać opcję Przelewy24 i losowo wygenerować dane. Na samym końcu użytkownik proszony jest o podanie imienia, nazwiska oraz adresu email. Po spełnieniu tych kroków bilet w formacie PDF jest pobierany na komputer. Zakładka Search działa jako wyszukiwarka dla naszych eventów pod względem słów kluczowych. Zakładka HotEvents wyświetla 30 najpopularniejszych eventów (z największą ilością polubień). Aktualnie przesyłam kod NIEKOMPLETNY lecz planuję nad nim dalej pracować (przesyłam go teraz ze wględy na to, że nie mam autlanie czasu by coś więcej napisać). Mam nadzieję że projekt przykuje uwage i otrzymam jakiś feedback. Dzięki!
-
-## Dalszy rozwój 
-W przyszłości planuję dodać kilka nowych funkcjonalności.
-1. Stworzyć podstronę, na której będą eventy, które dodał użytkownik. Czyli jako organizator jakiegoś wydarzenia będę mógł nim zarządzać z osobnego panelu.
-2. Kiedy organizator wprowadzi jakieś zmiany w evencie to zostanie wysłana wiadomość do użytkowników (których event dotyczy, tzn. to wydarzenie jest przez nich polubione). Wiadomość będzie wyświetlana na stronie lub wysyłana na adres email.
-3. Osobna zakładka dla polubionych eventów.
-4. Możliwość założenia konta lub podania adresu email dla newslettera (np. został dodany nowy event).
-5. Organizator tworząc event w formularzu będzie musiał podać dokładną datę rozpoczęcia i zakończenia eventu, by po okresie np. tygodnia od jego zakończenia, event był usówany z backendu.
-
 Welcome to your new `event_management_system` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
 To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
